@@ -42,14 +42,7 @@ namespace Prototype.NetworkLobby
         //static Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         //static Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
 
-         
-        public static void clickRejoin()
-        {
-            Debug.Log("rejoin");
-            
-        }
-
-
+     
         public override void OnClientEnterLobby()
         {
             base.OnClientEnterLobby();
@@ -121,7 +114,7 @@ namespace Prototype.NetworkLobby
 
             ChangeReadyButtonColor(JoinColor);
 
-            readyButton.transform.GetChild(0).GetComponent<Text>().text = "JOIN";
+            readyButton.transform.GetChild(0).GetComponent<Text>().text = "Play";
             readyButton.interactable = true;
 
             //have to use child count of player prefab already setup as "this.slot" is not set yet
@@ -148,8 +141,7 @@ namespace Prototype.NetworkLobby
             //-------------------------
             if (isServer)
             {
-                //OnClientReady(false);
-                //OnReadyClicked();
+                //
             }
             else
             {
@@ -180,7 +172,7 @@ namespace Prototype.NetworkLobby
                 ChangeReadyButtonColor(TransparentColor);
 
                 Text textComponent = readyButton.transform.GetChild(0).GetComponent<Text>();
-                textComponent.text = "READY";
+                textComponent.text = "OK";
                 textComponent.color = ReadyColor;
                 readyButton.interactable = false;
                 colorButton.interactable = false;
@@ -257,7 +249,7 @@ namespace Prototype.NetworkLobby
         [ClientRpc]
         public void RpcUpdateCountdown(int countdown)
         {
-            LobbyManager.s_Singleton.countdownPanel.UIText.text = "Entrando en " + countdown;
+            LobbyManager.s_Singleton.countdownPanel.UIText.text = countdown.ToString();
             LobbyManager.s_Singleton.countdownPanel.gameObject.SetActive(countdown != 0);
         }
 

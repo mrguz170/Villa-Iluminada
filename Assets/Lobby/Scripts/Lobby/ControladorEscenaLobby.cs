@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 using UnityEngine.SceneManagement;
 
@@ -20,21 +21,27 @@ namespace Prototype.NetworkLobby
         {
             LobbyManager = GameObject.Find("LobbyManager");
             mainPanel = LobbyManager.transform.Find("MainPanel").gameObject;
-            //lobbyPanel = LobbyManager.transform.Find("LobbyPanel").gameObject;
-
+            
             lobbyManager = LobbyManager.GetComponent<LobbyManager>();
             
             if (LobbyManager != null && mainPanel != null)
             {
-                //Debug.Log("no es null");
-               // StartCoroutine(VerPanelMenu());
-                //lobbyManager.ChangeTo(panelLobby);
+                StartCoroutine(LoadDevice("None"));
+                Debug.Log("App iniciada, NONE");
             }
             else
             {
                 Debug.Log("null");
             }
 
+        }
+
+
+        IEnumerator LoadDevice(string newDevice)
+        {
+            XRSettings.LoadDeviceByName(newDevice);
+            yield return null;
+            XRSettings.enabled = true;
         }
 
         IEnumerator VerPanelMenu()

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.VR;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
+using UnityEditor;
+ 
 
 
 namespace Prototype.NetworkLobby
@@ -20,16 +23,24 @@ namespace Prototype.NetworkLobby
 
         private GameObject LobbyMan;
         public LobbyManager lobbyManager;
+
+        public Texture2D virtualRealitySplashScreen;
+
         // Start is called before the first frame update
         void Start()
         {
             //
-
+           
             LobbyMan = GameObject.Find("LobbyManager");
-            lobbyManager = LobbyMan.GetComponent<LobbyManager>();
-            //11
-            StartCoroutine(LoadDevice("cardboard", true));
 
+            if (LobbyMan != null)
+            {
+                lobbyManager = LobbyMan.GetComponent<LobbyManager>();
+            }
+            
+            //cambiar de none a VR mode
+            ToggleVR();
+            
             //obtener componente video player para saber cuando esta activado
             var videoPlayer = gameObject.AddComponent<UnityEngine.Video.VideoPlayer>();
 
@@ -43,33 +54,30 @@ namespace Prototype.NetworkLobby
             StartCoroutine(IniciarVideo(videoPlayer));
         }
 
+        //rutina para inicia video
         IEnumerator IniciarVideo(UnityEngine.Video.VideoPlayer video)
         {
             yield return new WaitForSeconds(5);
+            
             flag = true;
             video.Play();
+            yield return new WaitForEndOfFrame();
         }
 
+        //rutina para regresar al host
         IEnumerator BackToHost()
         {
             Debug.Log("Volviendo a client");
             yield return new WaitForEndOfFrame();
+
+           
+            StartCoroutine(LoadDevice("None"));
+            
             flag = false;
 
-            StartCoroutine(LoadDevice("None", true));
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
             //regresar al lobby
             LobbyManager.s_Singleton.ServerReturnToLobby();
-            //LobbyManager.s_Singleton.OnLobbyClientEnter();
-
-      
-
-
-        
-
-       
-            //OnClientReady(false);
-            //SceneManager.LoadScene("client", LoadSceneMode.Single);
 
         }
 
@@ -78,23 +86,23 @@ namespace Prototype.NetworkLobby
 
             if (XRSettings.loadedDeviceName == "cardboard")
             {
-                //StartCoroutine(LoadDevice("None"));
-                Debug.Log("None");
+                StartCoroutine(LoadDevice("None"));
+                //Debug.Log("None");
             }
             else
             {
-                //StartCoroutine(LoadDevice("cardboard"));
-                Debug.Log("cardboard");
+                StartCoroutine(LoadDevice("cardboard"));
+                //Debug.Log("cardboard");
             }
         }
 
 
 
-        IEnumerator LoadDevice(string newDevice, bool enable)
+        IEnumerator LoadDevice(string newDevice)
         {
             XRSettings.LoadDeviceByName(newDevice);
             yield return null;
-            XRSettings.enabled = enable;
+            XRSettings.enabled = true;
         }
 
         // Update is called once per frame
@@ -102,7 +110,7 @@ namespace Prototype.NetworkLobby
         {
 
             currentTime = gameObject.GetComponent<UnityEngine.Video.VideoPlayer>().time;
-            if (currentTime >= time && flag.Equals(true))
+            if (currentTime >= time && flag.Equals(true) && lobbyManager != null)
             {
                 StartCoroutine(BackToHost());
             }

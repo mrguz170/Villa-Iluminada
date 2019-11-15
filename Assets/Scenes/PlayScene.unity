@@ -214,6 +214,9 @@ MonoBehaviour:
   TexturaVideo: {fileID: 8400000, guid: a399b6c2a5d47e84eb1608e51af4bd4d, type: 2}
   time: 0
   currentTime: 0
+  lobbyManager: {fileID: 0}
+  virtualRealitySplashScreen: {fileID: 2800000, guid: 9be55a1c895d42a48a59cd0f2fedcb49,
+    type: 3}
 --- !u!4 &1279208827
 Transform:
   m_ObjectHideFlags: 0

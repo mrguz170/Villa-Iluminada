@@ -9,6 +9,8 @@ Al iniciar la aplicación el administrador es capaz de iniciar un Servidor local
   * Al abrir la consola teclea: 'ipconfig'
   * Copia la direccion IPV4 en el apartado Unirse y pulsa el boton 'GO'
 
+![ip config](unity01.PNG "imagen1")
+
 Al entrar al lobby el cliente automaticamente entra en modo 'READY', es decir ya esta listo para comenzar la experiencia.
 
 Por ultimo una vez que todos los dispositivos hayan entrado a la sala, el 'Host' iniciara la experiencia al dar click al boton 'JOIN'  
@@ -21,3 +23,6 @@ Por ultimo una vez que todos los dispositivos hayan entrado a la sala, el 'Host'
   * Escribe 'firewall con seguridad avanzada'
   * Abre 'Windows defender firewall con seguridad avanzada'
   * En "reglas de entrada" buscar en la lista la seccion de Unity y verifica que todas las casillas esten habilitadas con icono de check verde, si hay alguna bloqueada activaladandole doble click -> General -> Accion -> Permitir conexión. Aplicar y aceptar.
+
+
+![firewall](unity02.PNG "imagen2")
